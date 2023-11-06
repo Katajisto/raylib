@@ -3461,18 +3461,17 @@ void ImageDrawRectangleRecBlend(Image *dst, Rectangle rec, Color color)
 
     int bytesPerPixel = GetPixelDataSize(1, 1, dst->format);
 
-    // Fill in the first pixel of the first row based on image format
-    ImageDrawPixel(dst, sx, sy, color);
+    Color *pixels = LoadImageColors(*dst);
 
     // Repeat the first pixel data throughout the row
-    for (int x = 1; x < (int)rec.width; x++)
+    for (int x = 0; x < (int)rec.width; x++)
     {
-	for (int y = 1; y < (int)rec.height; y++) {
-		Color srcColor = GetImageColor(dst, sx + x, sy +y);
-		Color blended = ColorAlphaBlend(srcColor, color, WHITE);
+	for (int y = 0; y < (int)rec.height; y++) {
+		Color blended = ColorAlphaBlend(pixels[(y*dst->width) + x], color, WHITE);
 		ImageDrawPixel(dst, sx + x, sy + y, blended);
 	}
     }
+    UnloadImageColors(pixels);
 }
 
 // Draw rectangle lines within an image
