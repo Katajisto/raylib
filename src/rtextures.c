@@ -3467,7 +3467,7 @@ void ImageDrawRectangleRecBlend(Image *dst, Rectangle rec, Color color)
     for (int x = 0; x < (int)rec.width; x++)
     {
 	for (int y = 0; y < (int)rec.height; y++) {
-		Color blended = ColorAlphaBlend(pixels[(y*dst->width) + x], color, WHITE);
+		Color blended = ColorAlphaBlend(pixels[((sy + y)*dst->width) + (sx + x)], color, WHITE);
 		ImageDrawPixel(dst, sx + x, sy + y, blended);
 	}
     }
